@@ -110,7 +110,8 @@ const Hero = () => (
           <img 
             src={SITE_CONFIG.assets.hero} 
             alt={SITE_CONFIG.name} 
-            className="w-full h-full object-cover scale-110 -translate-x-10"
+            className="w-full h-full object-cover"
+            referrerPolicy="no-referrer"
           />
         </div>
         <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-brand-yellow rounded-full blur-[80px] opacity-20" />

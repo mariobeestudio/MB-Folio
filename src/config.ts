@@ -1,6 +1,6 @@
 export const SITE_CONFIG = {
   name: "Mario Bee",
-  title: "Brand Designer & Design-Career Coach",
+  title: "Brand+Product Designer & Design-Career Coach",
   email: "hi.mbcreative@gmail.com",
   socials: {
     twitter: "https://twitter.com/mariobee8",
@@ -11,7 +11,7 @@ export const SITE_CONFIG = {
     spotify: "https://open.spotify.com/show/0EIElyq9v3Px9lXM5uZbPf?si=M5A8NI2dQkqOsVwC1mM5RA&utm_source=copy-link&nd=1&dlsi=a1858b3632554f1c"
   },
   assets: {
-    hero: "https://drive.google.com/thumbnail?id=1NLNgqqQ_RG7WK0_H0UQ_WUzmI8ExmFwy&sz=w1000",
+    hero: "https://lh3.googleusercontent.com/d/1NLNgqqQ_RG7WK0_H0UQ_WUzmI8ExmFwy",
     footer: "https://ais-pre-5d6wusuim46effhuwhgcqm-85632901987.europe-west2.run.app/api/pdf-screenshot?page=22",
     projects: {
       bonnyIsland: "https://ais-pre-5d6wusuim46effhuwhgcqm-85632901987.europe-west2.run.app/api/pdf-screenshot?page=6",
