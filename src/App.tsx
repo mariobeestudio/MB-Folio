@@ -18,7 +18,8 @@ import {
   Sun,
   Moon,
   Quote,
-  MessageSquare
+  MessageSquare,
+  ChevronDown
 } from 'lucide-react';
 import { SITE_CONFIG } from './config';
 
@@ -38,10 +39,16 @@ const Navbar = () => {
   
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4">
-      <div className="max-w-7xl mx-auto flex justify-between items-center glass rounded-full px-6 py-3">
+      <div className="max-w-7xl mx-auto flex justify-between items-center glass rounded-full p-3">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-brand-yellow rounded-full flex items-center justify-center text-black font-bold text-xs italic">MB</div>
-          <div className="font-serif italic text-xl font-bold tracking-tight">Mario Bee</div>
+          <div className="w-10 h-10 bg-brand-yellow rounded-full flex items-center justify-center overflow-hidden p-1.5">
+            <img 
+              src={SITE_CONFIG.assets.logo} 
+              alt={SITE_CONFIG.name} 
+              className="w-full h-full object-contain"
+              referrerPolicy="no-referrer"
+            />
+          </div>
         </div>
         <div className="hidden md:flex items-center gap-8 text-sm font-medium uppercase tracking-wider opacity-70">
           <a href="#hero" className="hover:text-brand-yellow transition-colors">Home</a>
@@ -109,13 +116,22 @@ const Hero = () => (
         transition={{ duration: 0.8, delay: 0.2 }}
         className="relative hidden lg:block"
       >
-        <div className="aspect-[4/5] rounded-[3rem] overflow-hidden border-8 border-brand-yellow/20 relative z-10">
+        <div className="aspect-[4/5] rounded-[3rem] overflow-hidden border-8 border-brand-yellow/20 relative z-10 group">
           <img 
             src={SITE_CONFIG.assets.hero} 
             alt={SITE_CONFIG.name} 
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
             referrerPolicy="no-referrer"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
+          <div className="absolute bottom-8 right-8 w-24 h-24 pointer-events-none">
+            <img 
+              src="https://lh3.googleusercontent.com/d/1K5QK8rb-fWJUOiY5iXyFoTVO6wlQt2Rj" 
+              alt="Overlay" 
+              className="w-full h-full object-contain"
+              referrerPolicy="no-referrer"
+            />
+          </div>
         </div>
         <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-brand-yellow rounded-full blur-[80px] opacity-20" />
       </motion.div>
@@ -226,21 +242,78 @@ const Skills = () => (
           <p className="opacity-50 leading-relaxed mb-8">
             Technical and measurable skills visible across my portfolio projects.
           </p>
-          <div className="space-y-6">
-            <div>
-              <h4 className="text-brand-yellow text-xs font-bold uppercase tracking-widest mb-4">Design Production</h4>
-              <div className="flex flex-wrap gap-2">
-                {["Graphic Design", "Social Media", "Posters", "Advertising", "Book Covers"].map((s, i) => (
-                  <span key={i} className="px-3 py-1 bg-black/[0.02] dark:bg-white/5 rounded-full text-xs font-medium border border-current/10">{s}</span>
-                ))}
+          <div className="space-y-4">
+            <div className="group cursor-default border-b border-current/5 pb-4 last:border-0">
+              <h4 className="text-brand-yellow text-xs font-bold uppercase tracking-widest flex items-center justify-between transition-colors group-hover:text-brand-yellow/80">
+                Brand & Design Skills
+                <ChevronDown className="w-3 h-3 opacity-30 group-hover:rotate-180 transition-transform" />
+              </h4>
+              <div className="max-h-0 overflow-hidden group-hover:max-h-96 transition-all duration-500 ease-in-out">
+                <div className="flex flex-wrap gap-2 pt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  {[
+                    "Brand Identity Design", 
+                    "Logo Design", 
+                    "Visual Identity Systems", 
+                    "Brand Guidelines / Style Guides", 
+                    "Brand Asset Development"
+                  ].map((s, i) => (
+                    <span key={i} className="px-3 py-1 bg-black/[0.02] dark:bg-white/5 rounded-full text-xs font-medium border border-current/10">{s}</span>
+                  ))}
+                </div>
               </div>
             </div>
-            <div>
-              <h4 className="text-brand-yellow text-xs font-bold uppercase tracking-widest mb-4">Digital Design</h4>
-              <div className="flex flex-wrap gap-2">
-                {["Dashboard UI", "Web Systems", "Figma", "Prototyping"].map((s, i) => (
-                  <span key={i} className="px-3 py-1 bg-black/[0.02] dark:bg-white/5 rounded-full text-xs font-medium border border-current/10">{s}</span>
-                ))}
+            <div className="group cursor-default border-b border-current/5 pb-4 last:border-0">
+              <h4 className="text-brand-yellow text-xs font-bold uppercase tracking-widest flex items-center justify-between transition-colors group-hover:text-brand-yellow/80">
+                Design Production
+                <ChevronDown className="w-3 h-3 opacity-30 group-hover:rotate-180 transition-transform" />
+              </h4>
+              <div className="max-h-0 overflow-hidden group-hover:max-h-96 transition-all duration-500 ease-in-out">
+                <div className="flex flex-wrap gap-2 pt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  {[
+                    "Graphic Design", 
+                    "Social Media Design", 
+                    "Poster Design", 
+                    "Advertising Design", 
+                    "Book Cover Design", 
+                    "Product Design (flashcards, digital products)"
+                  ].map((s, i) => (
+                    <span key={i} className="px-3 py-1 bg-black/[0.02] dark:bg-white/5 rounded-full text-xs font-medium border border-current/10">{s}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="group cursor-default border-b border-current/5 pb-4 last:border-0">
+              <h4 className="text-brand-yellow text-xs font-bold uppercase tracking-widest flex items-center justify-between transition-colors group-hover:text-brand-yellow/80">
+                Digital Design
+                <ChevronDown className="w-3 h-3 opacity-30 group-hover:rotate-180 transition-transform" />
+              </h4>
+              <div className="max-h-0 overflow-hidden group-hover:max-h-96 transition-all duration-500 ease-in-out">
+                <div className="flex flex-wrap gap-2 pt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  {[
+                    "Dashboard UI design", 
+                    "Web design systems", 
+                    "Figma prototyping"
+                  ].map((s, i) => (
+                    <span key={i} className="px-3 py-1 bg-black/[0.02] dark:bg-white/5 rounded-full text-xs font-medium border border-current/10">{s}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="group cursor-default border-b border-current/5 pb-4 last:border-0">
+              <h4 className="text-brand-yellow text-xs font-bold uppercase tracking-widest flex items-center justify-between transition-colors group-hover:text-brand-yellow/80">
+                Marketing Design
+                <ChevronDown className="w-3 h-3 opacity-30 group-hover:rotate-180 transition-transform" />
+              </h4>
+              <div className="max-h-0 overflow-hidden group-hover:max-h-96 transition-all duration-500 ease-in-out">
+                <div className="flex flex-wrap gap-2 pt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  {[
+                    "Social media campaigns", 
+                    "Visual storytelling for marketing", 
+                    "Ad creative direction"
+                  ].map((s, i) => (
+                    <span key={i} className="px-3 py-1 bg-black/[0.02] dark:bg-white/5 rounded-full text-xs font-medium border border-current/10">{s}</span>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -329,7 +402,7 @@ const Testimonials = () => (
   <section id="testimonials" className="py-24 px-6 bg-black/[0.02] dark:bg-black/30">
     <div className="max-w-7xl mx-auto">
       <div className="text-center mb-16">
-        <p className="text-brand-yellow uppercase tracking-widest text-xs font-bold mb-2">Kind Words</p>
+        <p className="text-brand-yellow uppercase tracking-widest text-xs font-bold mb-2">words on marbles</p>
         <h2 className="font-serif text-4xl md:text-6xl mb-4">Recommendations</h2>
         <p className="opacity-50 max-w-2xl mx-auto">What partners and clients say about working with me.</p>
       </div>
@@ -385,11 +458,11 @@ const Testimonials = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.1 }}
-            className="p-8 rounded-[2rem] bg-white dark:bg-white/5 border border-current/5 flex flex-col h-full hover:border-brand-yellow/30 transition-colors"
+            className="p-8 rounded-[2rem] bg-white dark:bg-white/5 border border-current/5 flex flex-col h-full hover:border-brand-yellow/30 transition-all group"
           >
-            <Quote className="w-8 h-8 text-brand-yellow/20 mb-6" />
-            <p className="text-sm leading-relaxed opacity-70 mb-8 flex-grow italic">"{t.content}"</p>
-            <div className="pt-6 border-t border-current/5">
+            <Quote className="w-8 h-8 text-brand-yellow/20 group-hover:text-brand-yellow/100 mb-6 transition-all" />
+            <p className="text-sm leading-relaxed opacity-40 group-hover:opacity-100 dark:text-white/90 mb-8 flex-grow italic transition-opacity">"{t.content}"</p>
+            <div className="pt-6 border-t border-current/5 group-hover:opacity-30 transition-opacity">
               <h4 className="font-bold text-lg">{t.name}</h4>
               <p className="text-[10px] text-brand-yellow uppercase tracking-wider font-bold mb-1">{t.connection}</p>
               <p className="text-xs opacity-40 leading-tight">{t.role}</p>
@@ -462,10 +535,17 @@ const Footer = () => (
       
       <div className="flex flex-col md:flex-row justify-between items-center pt-12 border-t border-current/5 gap-6">
         <div className="flex items-center gap-3">
-          <div className="w-6 h-6 bg-brand-yellow rounded-full flex items-center justify-center text-black font-bold text-[10px] italic">MB</div>
-          <div className="font-serif italic text-lg font-bold">Mario Bee</div>
+          <div className="w-8 h-8 bg-brand-yellow rounded-full flex items-center justify-center overflow-hidden p-1">
+            <img 
+              src={SITE_CONFIG.assets.logo} 
+              alt={SITE_CONFIG.name} 
+              className="w-full h-full object-contain"
+              referrerPolicy="no-referrer"
+            />
+          </div>
+          <span className="font-serif text-lg font-bold tracking-tight">Mario Bee</span>
         </div>
-        <p className="text-xs opacity-20 font-medium tracking-widest uppercase">© 2026 MB Creative Studio • A Hive of Creativity</p>
+        <p className="text-xs opacity-20 font-medium tracking-widest uppercase">© 2026 MB Creative • A Hive of Creativity</p>
       </div>
     </div>
   </footer>

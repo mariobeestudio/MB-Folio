@@ -12,6 +12,7 @@ export const SITE_CONFIG = {
   },
   assets: {
     hero: "https://lh3.googleusercontent.com/d/1NLNgqqQ_RG7WK0_H0UQ_WUzmI8ExmFwy",
+    logo: "https://lh3.googleusercontent.com/d/1K5QK8rb-fWJUOiY5iXyFoTVO6wlQt2Rj",
     footer: "https://lh3.googleusercontent.com/d/1psh-RZszjEbiKzLjcUWLF6_1B_QvtE9D",
     projects: {
       bonnyIsland: "https://lh3.googleusercontent.com/d/1h0slBCKEewJR1cKxiVShEI22bTMK8q_i",
