@@ -73,7 +73,7 @@ const Hero = () => (
         className="max-w-4xl"
       >
         <span className="inline-block px-3 py-1 bg-brand-yellow/10 text-brand-yellow rounded-full text-[10px] uppercase tracking-[0.2em] font-bold mb-6 border border-brand-yellow/20">
-          Brand Designer & Design-Career Coach
+          {SITE_CONFIG.title}
         </span>
         <h1 className="font-serif text-6xl md:text-8xl lg:text-9xl leading-[0.9] mb-8 text-balance">
           Hello <span className="text-brand-yellow italic">Partner</span>, I'm {SITE_CONFIG.name}.
