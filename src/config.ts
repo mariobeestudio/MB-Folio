@@ -12,12 +12,12 @@ export const SITE_CONFIG = {
   },
   assets: {
     hero: "https://lh3.googleusercontent.com/d/1NLNgqqQ_RG7WK0_H0UQ_WUzmI8ExmFwy",
-    footer: "https://ais-pre-5d6wusuim46effhuwhgcqm-85632901987.europe-west2.run.app/api/pdf-screenshot?page=22",
+    footer: "https://lh3.googleusercontent.com/d/1psh-RZszjEbiKzLjcUWLF6_1B_QvtE9D",
     projects: {
-      bonnyIsland: "https://ais-pre-5d6wusuim46effhuwhgcqm-85632901987.europe-west2.run.app/api/pdf-screenshot?page=6",
-      bookie: "https://ais-pre-5d6wusuim46effhuwhgcqm-85632901987.europe-west2.run.app/api/pdf-screenshot?page=21",
-      lessons: "https://ais-pre-5d6wusuim46effhuwhgcqm-85632901987.europe-west2.run.app/api/pdf-screenshot?page=20",
-      lenaVieve: "https://ais-pre-5d6wusuim46effhuwhgcqm-85632901987.europe-west2.run.app/api/pdf-screenshot?page=11"
+      bonnyIsland: "https://lh3.googleusercontent.com/d/1h0slBCKEewJR1cKxiVShEI22bTMK8q_i",
+      bookie: "https://lh3.googleusercontent.com/d/13qBwLqZVBI-UwIEcgcKgCE89m_zaeoaN",
+      lessons: "https://lh3.googleusercontent.com/d/1T0in_zEakv0SPmwhRh3qIxu7nmE0T_Mw",
+      lenaVieve: "https://lh3.googleusercontent.com/d/1ltecj4hs2UU-woC-AoftwnFuME9NQl-H"
     }
   },
   links: {
@@ -25,6 +25,7 @@ export const SITE_CONFIG = {
     petelDigital: "https://petel.digital",
     bonnyIslandMarathon: "https://www.bonnyislandmarathon.com.ng",
     lessonsFromMyDaughters: "https://lessonsfrommydaughters.com",
-    lenaVieveInstagram: "https://www.instagram.com/lenavievefashion"
+    lenaVieveInstagram: "https://www.instagram.com/lenavievefashion",
+    nobleAi: "https://www.noble-ai.io/"
   }
 };

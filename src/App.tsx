@@ -16,7 +16,9 @@ import {
   Award,
   Lightbulb,
   Sun,
-  Moon
+  Moon,
+  Quote,
+  MessageSquare
 } from 'lucide-react';
 import { SITE_CONFIG } from './config';
 
@@ -42,8 +44,9 @@ const Navbar = () => {
           <div className="font-serif italic text-xl font-bold tracking-tight">Mario Bee</div>
         </div>
         <div className="hidden md:flex items-center gap-8 text-sm font-medium uppercase tracking-wider opacity-70">
-          <a href="#about" className="hover:text-brand-yellow transition-colors">About</a>
+          <a href="#hero" className="hover:text-brand-yellow transition-colors">Home</a>
           <a href="#projects" className="hover:text-brand-yellow transition-colors">Projects</a>
+          <a href="#testimonials" className="hover:text-brand-yellow transition-colors">Testimonials</a>
           <a href="#skills" className="hover:text-brand-yellow transition-colors">Skills</a>
         </div>
         <div className="flex items-center gap-4">
@@ -64,7 +67,7 @@ const Navbar = () => {
 };
 
 const Hero = () => (
-  <section className="pt-40 pb-24 px-6 relative overflow-hidden">
+  <section id="hero" className="pt-40 pb-24 px-6 relative overflow-hidden">
     <div className="max-w-7xl mx-auto relative z-10 grid lg:grid-cols-2 gap-12 items-center">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
@@ -147,13 +150,13 @@ const Projects = () => (
             link: SITE_CONFIG.links.bonnyIslandMarathon
           },
           {
-            title: "Bookie Dashboard",
+            title: "World-class AI Product",
             category: "Product Design",
             desc: "A comprehensive dashboard design for a reading and library management platform, focusing on user goals and activity.",
             image: SITE_CONFIG.assets.projects.bookie,
             color: "bg-indigo-500/10",
             textColor: "text-indigo-500 dark:text-indigo-400",
-            link: "#contact"
+            link: SITE_CONFIG.links.nobleAi
           },
           {
             title: "Lessons From My Daughters",
@@ -219,7 +222,7 @@ const Skills = () => (
     <div className="max-w-7xl mx-auto">
       <div className="grid lg:grid-cols-3 gap-16">
         <div className="lg:col-span-1">
-          <h2 className="font-serif text-4xl md:text-5xl mb-6">Hard Skills</h2>
+          <h2 className="font-serif text-4xl md:text-5xl mb-6">Skill Stack</h2>
           <p className="opacity-50 leading-relaxed mb-8">
             Technical and measurable skills visible across my portfolio projects.
           </p>
@@ -286,7 +289,7 @@ const USP = () => (
   <section id="usp" className="py-24 px-6">
     <div className="max-w-7xl mx-auto">
       <div className="text-center mb-16">
-        <h2 className="font-serif text-4xl md:text-5xl mb-4">The Mario Bee Edge</h2>
+        <h2 className="font-serif text-4xl md:text-5xl mb-4">The <span className="italic text-brand-yellow">Bee</span> Edge</h2>
         <p className="text-brand-yellow uppercase tracking-widest text-xs font-bold">Unique Selling Propositions</p>
       </div>
       <div className="grid md:grid-cols-3 gap-8">
@@ -314,8 +317,85 @@ const USP = () => (
               <p className="opacity-60 leading-relaxed">{item.desc}</p>
             </div>
             {/* Abstract background shape */}
-            <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-brand-yellow/5 rounded-full group-hover:scale-150 transition-transform duration-700" />
+            <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-brand-yellow/5 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700" />
           </div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+const Testimonials = () => (
+  <section id="testimonials" className="py-24 px-6 bg-black/[0.02] dark:bg-black/30">
+    <div className="max-w-7xl mx-auto">
+      <div className="text-center mb-16">
+        <p className="text-brand-yellow uppercase tracking-widest text-xs font-bold mb-2">Kind Words</p>
+        <h2 className="font-serif text-4xl md:text-6xl mb-4">Recommendations</h2>
+        <p className="opacity-50 max-w-2xl mx-auto">What partners and clients say about working with me.</p>
+      </div>
+      
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {[
+          {
+            name: "Wereloo Kingston",
+            role: "Climate & Environmental Policy Advocate",
+            date: "May 10, 2025",
+            content: "I rarely write recommendations, but for Mario, it would be an injustice not to. He is one of the most creative, intelligent, and dependable people I’ve worked with. From concept to execution, he brings ideas, strategy, and clarity. He’s a rare mix of skill, heart, and imagination.",
+            connection: "Worked with Mario on the same team"
+          },
+          {
+            name: "Tawanda Bwerudza",
+            role: "Author & Engineer @Kuona Engineering",
+            date: "April 30, 2025",
+            content: "Mario was responsible for developing the brand identity of a product that was just coming out of the concept phase. Mario's way of working is highly collaborative, and his communication throughout projects is clear and concise. He is a creative in the true sense of the word.",
+            connection: "Mario’s client"
+          },
+          {
+            name: "Roseline Chidinma Nwachukwu",
+            role: "Technical Buyer - Project Control Specialist",
+            date: "April 21, 2025",
+            content: "I have had the pleasure of working with Mario on my branding project (PEMA). Mario possesses a unique ability to process complex brand identities into organized, visually amazing designs. His attention to details, creative vision, and passion for design make him an invaluable asset.",
+            connection: "Mario’s client"
+          },
+          {
+            name: "Ime Uboh",
+            role: "UI/UX Designer | UX Researcher",
+            date: "October 1, 2023",
+            content: "I've known Mario for more than 2 years, and he's really passionate about his work. When we collaborate, it's always amazing because he gives it his all.",
+            connection: "Worked with Mario on the same team"
+          },
+          {
+            name: "Chukwunomso Chukwudubem",
+            role: "Design Consultant | Products | Web3",
+            date: "October 3, 2022",
+            content: "Excellent at identity design. He leverages on storytelling to communicate ethos and practices of brands- through compelling visuals.",
+            connection: "Worked with Mario but they were at different companies"
+          },
+          {
+            name: "Nwamaka Akah",
+            role: "Product design | Design systems",
+            date: "October 3, 2022",
+            content: "Mario is an awesome team player, with great leadership skills. While working with him, it was hard to miss how much thought he gives to his creative work and it reflects in the quality of his work.",
+            connection: "Worked with Mario on the same team"
+          }
+        ].map((t, i) => (
+          <motion.div 
+            key={i}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.1 }}
+            className="p-8 rounded-[2rem] bg-white dark:bg-white/5 border border-current/5 flex flex-col h-full hover:border-brand-yellow/30 transition-colors"
+          >
+            <Quote className="w-8 h-8 text-brand-yellow/20 mb-6" />
+            <p className="text-sm leading-relaxed opacity-70 mb-8 flex-grow italic">"{t.content}"</p>
+            <div className="pt-6 border-t border-current/5">
+              <h4 className="font-bold text-lg">{t.name}</h4>
+              <p className="text-[10px] text-brand-yellow uppercase tracking-wider font-bold mb-1">{t.connection}</p>
+              <p className="text-xs opacity-40 leading-tight">{t.role}</p>
+              <p className="text-[10px] opacity-30 mt-2">{t.date}</p>
+            </div>
+          </motion.div>
         ))}
       </div>
     </div>
@@ -333,7 +413,7 @@ const Footer = () => (
               <img 
                 src={SITE_CONFIG.assets.footer} 
                 alt={SITE_CONFIG.name} 
-                className="w-full h-full object-cover scale-150"
+                className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
               />
             </div>
@@ -411,6 +491,7 @@ export default function App() {
         <main>
           <Hero />
           <Projects />
+          <Testimonials />
           <Skills />
           <USP />
         </main>
