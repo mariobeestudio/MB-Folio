@@ -157,6 +157,24 @@ const Hero = () => {
           className="relative hidden lg:block"
           style={{ perspective: "1000px" }}
         >
+          {/* Radiating Waves */}
+          <div className="absolute inset-0 z-0 pointer-events-none">
+            {[1, 2, 3].map((i) => (
+              <motion.div
+                key={i}
+                initial={{ scale: 0.95, opacity: 0.5 }}
+                animate={{ scale: 1.4, opacity: 0 }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  delay: i * 1.3,
+                  ease: "easeOut"
+                }}
+                className="absolute inset-0 border border-brand-yellow/20 rounded-[3.5rem]"
+              />
+            ))}
+          </div>
+
           <motion.div 
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
@@ -170,7 +188,7 @@ const Hero = () => {
               scale: 1.02,
               transition: { duration: 0.4, ease: "easeOut" }
             }}
-            className="aspect-[4/5] rounded-[3rem] overflow-hidden border-8 border-brand-yellow/20 relative z-10 group cursor-pointer"
+            className="aspect-[4/5] rounded-[3rem] overflow-hidden border-2 border-brand-yellow/30 relative z-10 group cursor-pointer"
           >
             <img 
               src={SITE_CONFIG.assets.hero} 
@@ -182,8 +200,8 @@ const Hero = () => {
             {/* Glassmorphism Overlay */}
             <div className="absolute inset-0 flex items-center justify-center p-12 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20">
               <div className="glass p-8 rounded-3xl backdrop-blur-xl bg-white/5 border border-white/10 text-center transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 shadow-2xl">
-                <Quote className="w-8 h-8 text-brand-yellow mb-4 mx-auto opacity-50" />
-                <p className="font-serif text-2xl text-white italic leading-tight">
+                <Quote className="w-8 h-8 text-brand-yellow mb-4 mx-auto opacity-10" />
+                <p className="text-xl md:text-2xl text-white opacity-60 leading-relaxed">
                   {quotes[quoteIndex]}
                 </p>
               </div>
@@ -192,7 +210,9 @@ const Hero = () => {
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none group-hover:opacity-0 transition-opacity" />
             
             <div className="absolute bottom-8 right-8 w-24 h-24 pointer-events-none group-hover:opacity-0 transition-opacity">
-              <img 
+              <motion.img 
+                animate={{ rotate: 360 }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                 src="https://lh3.googleusercontent.com/d/1K5QK8rb-fWJUOiY5iXyFoTVO6wlQt2Rj" 
                 alt="Overlay" 
                 className="w-full h-full object-contain"
