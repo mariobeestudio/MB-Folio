@@ -1,5 +1,5 @@
-import React, { useState, useEffect, createContext, useContext } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import React, { useState, useEffect, createContext, useContext, useRef } from 'react';
+import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from 'motion/react';
 import { 
   Palette, 
   Target, 
@@ -73,73 +73,141 @@ const Navbar = () => {
   );
 };
 
-const Hero = () => (
-  <section id="hero" className="pt-40 pb-24 px-6 relative overflow-hidden">
-    <div className="max-w-7xl mx-auto relative z-10 grid lg:grid-cols-2 gap-12 items-center">
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="max-w-4xl"
-      >
-        <span className="inline-block px-3 py-1 bg-brand-yellow/10 text-brand-yellow rounded-full text-[10px] uppercase tracking-[0.2em] font-bold mb-6 border border-brand-yellow/20">
-          {SITE_CONFIG.title}
-        </span>
-        <h1 className="font-serif text-6xl md:text-8xl lg:text-9xl leading-[0.9] mb-8 text-balance">
-          Hello <span className="text-brand-yellow italic">Partner</span>, I'm {SITE_CONFIG.name}.
-        </h1>
-        <p className="text-xl md:text-2xl opacity-60 max-w-2xl leading-relaxed mb-10">
-          Driven by the desire to inspire people through design thinking. I help businesses achieve clarity, growth, and increased profits.
-        </p>
-        <div className="flex flex-wrap gap-4">
-          <a 
-            href={SITE_CONFIG.socials.behance} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="bg-brand-yellow text-black px-8 py-4 rounded-full font-bold flex items-center gap-2 group hover:scale-105 transition-transform"
+const Hero = () => {
+  const [quoteIndex, setQuoteIndex] = useState(0);
+  const quotes = [
+    "good design is critical-thinking made visual.",
+    "the tool is only an extension of the mind.",
+    "design is intelligence having fun."
+  ];
+
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseXSpring = useSpring(x);
+  const mouseYSpring = useSpring(y);
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+
+    x.set(xPct);
+    y.set(yPct);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  const handleHover = () => {
+    setQuoteIndex((prev) => (prev + 1) % quotes.length);
+  };
+
+  return (
+    <section id="hero" className="pt-40 pb-24 px-6 relative overflow-hidden">
+      <div className="max-w-7xl mx-auto relative z-10 grid lg:grid-cols-2 gap-12 items-center">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="max-w-4xl"
+        >
+          <span className="inline-block px-3 py-1 bg-brand-yellow/10 text-brand-yellow rounded-full text-[10px] uppercase tracking-[0.2em] font-bold mb-6 border border-brand-yellow/20">
+            {SITE_CONFIG.title}
+          </span>
+          <h1 className="font-serif text-6xl md:text-8xl lg:text-9xl leading-[0.9] mb-8 text-balance">
+            Hello <span className="text-brand-yellow italic">Partner</span>, I'm {SITE_CONFIG.name}.
+          </h1>
+          <p className="text-xl md:text-2xl opacity-60 max-w-2xl leading-relaxed mb-10">
+            Driven by the desire to inspire people through design thinking. I help businesses achieve clarity, growth, and increased profits.
+          </p>
+          <div className="flex flex-wrap gap-4">
+            <a 
+              href={SITE_CONFIG.socials.behance} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="bg-brand-yellow text-black px-8 py-4 rounded-full font-bold flex items-center gap-2 group hover:scale-105 transition-transform"
+            >
+              Explore Portfolio <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </a>
+            <a 
+              href={SITE_CONFIG.socials.spotify} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="border border-current/10 px-8 py-4 rounded-full font-medium hover:bg-black/5 dark:hover:bg-white/5 transition-colors flex items-center gap-2"
+            >
+              Listen to Podcast <Mic2 className="w-4 h-4" />
+            </a>
+          </div>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="relative hidden lg:block"
+          style={{ perspective: "1000px" }}
+        >
+          <motion.div 
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            onMouseEnter={handleHover}
+            style={{ 
+              rotateX,
+              rotateY,
+              transformStyle: "preserve-3d" 
+            }}
+            whileHover={{ 
+              scale: 1.02,
+              transition: { duration: 0.4, ease: "easeOut" }
+            }}
+            className="aspect-[4/5] rounded-[3rem] overflow-hidden border-8 border-brand-yellow/20 relative z-10 group cursor-pointer"
           >
-            Explore Portfolio <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </a>
-          <a 
-            href={SITE_CONFIG.socials.spotify} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="border border-current/10 px-8 py-4 rounded-full font-medium hover:bg-black/5 dark:hover:bg-white/5 transition-colors flex items-center gap-2"
-          >
-            Listen to Podcast <Mic2 className="w-4 h-4" />
-          </a>
-        </div>
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        className="relative hidden lg:block"
-      >
-        <div className="aspect-[4/5] rounded-[3rem] overflow-hidden border-8 border-brand-yellow/20 relative z-10 group">
-          <img 
-            src={SITE_CONFIG.assets.hero} 
-            alt={SITE_CONFIG.name} 
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-            referrerPolicy="no-referrer"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
-          <div className="absolute bottom-8 right-8 w-24 h-24 pointer-events-none">
             <img 
-              src="https://lh3.googleusercontent.com/d/1K5QK8rb-fWJUOiY5iXyFoTVO6wlQt2Rj" 
-              alt="Overlay" 
-              className="w-full h-full object-contain"
+              src={SITE_CONFIG.assets.hero} 
+              alt={SITE_CONFIG.name} 
+              className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-[0.3]"
               referrerPolicy="no-referrer"
             />
-          </div>
-        </div>
-        <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-brand-yellow rounded-full blur-[80px] opacity-20" />
-      </motion.div>
-    </div>
-    {/* Background Glow */}
-    <div className="absolute top-1/4 -right-20 w-96 h-96 bg-brand-yellow/10 rounded-full blur-[120px]" />
-  </section>
-);
+            
+            {/* Glassmorphism Overlay */}
+            <div className="absolute inset-0 flex items-center justify-center p-12 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20">
+              <div className="glass p-8 rounded-3xl backdrop-blur-xl bg-white/5 border border-white/10 text-center transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 shadow-2xl">
+                <Quote className="w-8 h-8 text-brand-yellow mb-4 mx-auto opacity-50" />
+                <p className="font-serif text-2xl text-white italic leading-tight">
+                  {quotes[quoteIndex]}
+                </p>
+              </div>
+            </div>
+
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none group-hover:opacity-0 transition-opacity" />
+            
+            <div className="absolute bottom-8 right-8 w-24 h-24 pointer-events-none group-hover:opacity-0 transition-opacity">
+              <img 
+                src="https://lh3.googleusercontent.com/d/1K5QK8rb-fWJUOiY5iXyFoTVO6wlQt2Rj" 
+                alt="Overlay" 
+                className="w-full h-full object-contain"
+                referrerPolicy="no-referrer"
+              />
+            </div>
+          </motion.div>
+          <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-brand-yellow rounded-full blur-[80px] opacity-20" />
+        </motion.div>
+      </div>
+      {/* Background Glow */}
+      <div className="absolute top-1/4 -right-20 w-96 h-96 bg-brand-yellow/10 rounded-full blur-[120px]" />
+    </section>
+  );
+};
 
 const Projects = () => (
   <section id="projects" className="py-24 px-6 bg-black/[0.02] dark:bg-black/30">
