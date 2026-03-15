@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext, useContext, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from 'motion/react';
 import { 
   Palette, 
@@ -15,31 +15,22 @@ import {
   Globe,
   Award,
   Lightbulb,
-  Sun,
-  Moon,
   Quote,
   MessageSquare,
-  ChevronDown
+  ChevronDown,
+  Menu,
+  X
 } from 'lucide-react';
 import { SITE_CONFIG } from './config';
-
-// --- Theme Context ---
-
-const ThemeContext = createContext({
-  isDark: true,
-  toggleTheme: () => {},
-});
-
-const useTheme = () => useContext(ThemeContext);
 
 // --- Components ---
 
 const Navbar = () => {
-  const { isDark, toggleTheme } = useTheme();
+  const [isOpen, setIsOpen] = useState(false);
   
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4">
-      <div className="max-w-7xl mx-auto flex justify-between items-center glass rounded-full p-3">
+      <div className="max-w-7xl mx-auto flex justify-between items-center glass rounded-full p-3 relative">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-brand-yellow rounded-full flex items-center justify-center overflow-hidden p-1.5">
             <img 
@@ -50,24 +41,46 @@ const Navbar = () => {
             />
           </div>
         </div>
+        
+        {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8 text-sm font-medium uppercase tracking-wider opacity-70">
           <a href="#hero" className="hover:text-brand-yellow transition-colors">Home</a>
           <a href="#projects" className="hover:text-brand-yellow transition-colors">Projects</a>
           <a href="#testimonials" className="hover:text-brand-yellow transition-colors">Testimonials</a>
           <a href="#skills" className="hover:text-brand-yellow transition-colors">Skills</a>
         </div>
-        <div className="flex items-center gap-4">
-          <button 
-            onClick={toggleTheme}
-            className="p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
-            aria-label="Toggle theme"
-          >
-            {isDark ? <Sun className="w-5 h-5 text-brand-yellow" /> : <Moon className="w-5 h-5" />}
-          </button>
-          <a href="#contact" className="bg-brand-yellow text-black px-5 py-2 rounded-full text-sm font-bold hover:scale-105 transition-transform">
+
+        <div className="flex items-center gap-2 md:gap-4">
+          <a href="#contact" className="hidden sm:block bg-brand-yellow text-black px-5 py-2 rounded-full text-sm font-bold hover:scale-105 transition-transform">
             Hire Me
           </a>
+
+          {/* Mobile Menu Toggle */}
+          <button 
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden p-2 rounded-full hover:bg-white/5 transition-colors"
+          >
+            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
+
+        {/* Mobile Menu Dropdown */}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="absolute top-full left-0 right-0 mt-4 glass rounded-3xl p-6 flex flex-col gap-6 md:hidden"
+            >
+              <a href="#hero" onClick={() => setIsOpen(false)} className="text-lg font-bold uppercase tracking-widest hover:text-brand-yellow transition-colors">Home</a>
+              <a href="#projects" onClick={() => setIsOpen(false)} className="text-lg font-bold uppercase tracking-widest hover:text-brand-yellow transition-colors">Projects</a>
+              <a href="#testimonials" onClick={() => setIsOpen(false)} className="text-lg font-bold uppercase tracking-widest hover:text-brand-yellow transition-colors">Testimonials</a>
+              <a href="#skills" onClick={() => setIsOpen(false)} className="text-lg font-bold uppercase tracking-widest hover:text-brand-yellow transition-colors">Skills</a>
+              <a href="#contact" onClick={() => setIsOpen(false)} className="bg-brand-yellow text-black px-8 py-4 rounded-full font-bold text-center">Hire Me</a>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </nav>
   );
@@ -125,7 +138,7 @@ const Hero = () => {
           <span className="inline-block px-3 py-1 bg-brand-yellow/10 text-brand-yellow rounded-full text-[10px] uppercase tracking-[0.2em] font-bold mb-6 border border-brand-yellow/20">
             {SITE_CONFIG.title}
           </span>
-          <h1 className="font-serif text-6xl md:text-8xl lg:text-9xl leading-[0.9] mb-8 text-balance">
+          <h1 className="font-serif text-4xl sm:text-6xl md:text-8xl lg:text-9xl leading-[0.9] mb-8 text-balance">
             Hello <span className="text-brand-yellow italic">Partner</span>, I'm {SITE_CONFIG.name}.
           </h1>
           <p className="text-xl md:text-2xl opacity-60 max-w-2xl leading-relaxed mb-10">
@@ -154,7 +167,7 @@ const Hero = () => {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="relative hidden lg:block"
+          className="relative block mt-12 lg:mt-0"
           style={{ perspective: "1000px" }}
         >
           {/* Radiating Waves */}
@@ -230,7 +243,7 @@ const Hero = () => {
 };
 
 const Projects = () => (
-  <section id="projects" className="py-24 px-6 bg-black/[0.02] dark:bg-black/30">
+  <section id="projects" className="py-24 px-6 bg-[#cecece] dark:bg-zinc-900/40 transition-colors duration-500">
     <div className="max-w-7xl mx-auto">
       <div className="mb-16 flex justify-between items-end">
         <div>
@@ -487,7 +500,7 @@ const USP = () => (
 );
 
 const Testimonials = () => (
-  <section id="testimonials" className="py-24 px-6 bg-black/[0.02] dark:bg-black/30">
+  <section id="testimonials" className="py-24 px-6 bg-zinc-50 dark:bg-zinc-900/40 transition-colors duration-500">
     <div className="max-w-7xl mx-auto">
       <div className="text-center mb-16">
         <p className="text-brand-yellow uppercase tracking-widest text-xs font-bold mb-2">words on marbles</p>
@@ -564,7 +577,7 @@ const Testimonials = () => (
 );
 
 const Footer = () => (
-  <footer id="contact" className="py-24 px-6 border-t border-current/5 bg-black/[0.02] dark:bg-black/50">
+  <footer id="contact" className="py-24 px-6 border-t border-current/5 bg-zinc-100/50 dark:bg-black/50 transition-colors duration-500">
     <div className="max-w-7xl mx-auto">
       <div className="grid lg:grid-cols-2 gap-16 mb-20">
         <div>
@@ -600,7 +613,7 @@ const Footer = () => (
           </div>
         </div>
         
-        <div className="glass p-10 rounded-[2.5rem]">
+        <div className="glass p-6 sm:p-10 rounded-[2.5rem]">
           <form className="space-y-6">
             <div className="space-y-2">
               <label className="text-[10px] uppercase tracking-widest font-bold opacity-40">Full Name</label>
@@ -640,32 +653,22 @@ const Footer = () => (
 );
 
 export default function App() {
-  const [isDark, setIsDark] = useState(true);
-
   useEffect(() => {
-    if (isDark) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [isDark]);
-
-  const toggleTheme = () => setIsDark(!isDark);
+    document.documentElement.classList.add('dark');
+  }, []);
 
   return (
-    <ThemeContext.Provider value={{ isDark, toggleTheme }}>
-      <div className="font-sans antialiased min-h-screen transition-colors duration-300">
-        <Navbar />
-        <main>
-          <Hero />
-          <Projects />
-          <Testimonials />
-          <Skills />
-          <USP />
-        </main>
-        <Footer />
-      </div>
-    </ThemeContext.Provider>
+    <div className="font-sans antialiased min-h-screen bg-brand-dark text-white">
+      <Navbar />
+      <main>
+        <Hero />
+        <Projects />
+        <Testimonials />
+        <Skills />
+        <USP />
+      </main>
+      <Footer />
+    </div>
   );
 }
 
