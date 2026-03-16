@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'motion/react';
 import { 
   Palette, 
   Target, 
@@ -89,6 +89,43 @@ const Navbar = () => {
 };
 
 const Hero = () => {
+  const [quoteIndex, setQuoteIndex] = useState(0);
+  const quotes = [
+    "good design is critical-thinking made visual.",
+    "the tool is only an extension of the mind.",
+    "design is intelligence having fun."
+  ];
+
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseXSpring = useSpring(x);
+  const mouseYSpring = useSpring(y);
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["15deg", "-15deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-15deg", "15deg"]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+    x.set(xPct);
+    y.set(yPct);
+  };
+
+  const handleMouseEnter = () => {
+    setQuoteIndex((prev) => (prev + 1) % quotes.length);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
   return (
     <section id="hero" className="pt-32 pb-24 px-6 relative overflow-hidden">
       <div className="max-w-7xl mx-auto relative z-10 grid lg:grid-cols-2 gap-8 items-center">
@@ -98,6 +135,9 @@ const Hero = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           className="relative block order-first lg:order-last"
+          style={{
+            perspective: "1000px",
+          }}
         >
           {/* Radiating Waves */}
           <div className="absolute inset-0 z-0 pointer-events-none">
@@ -117,11 +157,21 @@ const Hero = () => {
             ))}
           </div>
 
-          <div className="aspect-[4/5] rounded-[2rem] overflow-hidden border-2 border-brand-yellow/30 relative z-10 group">
-            <img 
+          <motion.div 
+            className="aspect-[4/5] rounded-[2rem] overflow-hidden border-2 border-brand-yellow/30 relative z-10 group cursor-pointer"
+            onMouseMove={handleMouseMove}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            style={{
+              rotateX,
+              rotateY,
+              transformStyle: "preserve-3d",
+            }}
+          >
+            <motion.img 
               src={SITE_CONFIG.assets.hero} 
               alt={SITE_CONFIG.name} 
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               referrerPolicy="no-referrer"
             />
             
@@ -135,8 +185,25 @@ const Hero = () => {
               </h1>
             </div>
 
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none lg:block hidden" />
-          </div>
+            {/* Desktop Glassmorphism Overlay */}
+            <div 
+              className="absolute inset-0 bg-black/40 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 lg:flex hidden items-center justify-center p-12 text-center"
+              style={{
+                transform: "translateZ(50px)",
+              }}
+            >
+              <div className="glass p-8 rounded-2xl border border-white/20 shadow-2xl relative overflow-hidden">
+                <Quote className="w-8 h-8 text-brand-yellow mb-4 mx-auto opacity-50" />
+                <p className="text-xl md:text-2xl font-serif italic text-white leading-tight">
+                  "{quotes[quoteIndex]}"
+                </p>
+                {/* Subtle reflection */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent pointer-events-none" />
+              </div>
+            </div>
+
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none lg:block hidden group-hover:opacity-0 transition-opacity duration-500" />
+          </motion.div>
           <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-brand-yellow rounded-full blur-[80px] opacity-20" />
         </motion.div>
 
