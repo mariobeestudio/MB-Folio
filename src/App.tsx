@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { 
   Palette, 
   Target, 
@@ -18,6 +18,8 @@ import {
   Quote,
   MessageSquare,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   Menu,
   X
 } from 'lucide-react';
@@ -87,58 +89,68 @@ const Navbar = () => {
 };
 
 const Hero = () => {
-  const [quoteIndex, setQuoteIndex] = useState(0);
-  const quotes = [
-    "good design is critical-thinking made visual.",
-    "the tool is only an extension of the mind.",
-    "design is intelligence having fun."
-  ];
-
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-
-  const mouseXSpring = useSpring(x);
-  const mouseYSpring = useSpring(y);
-
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"]);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"]);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-
-    const xPct = mouseX / width - 0.5;
-    const yPct = mouseY / height - 0.5;
-
-    x.set(xPct);
-    y.set(yPct);
-  };
-
-  const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
-  };
-
-  const handleHover = () => {
-    setQuoteIndex((prev) => (prev + 1) % quotes.length);
-  };
-
   return (
-    <section id="hero" className="pt-40 pb-24 px-6 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto relative z-10 grid lg:grid-cols-2 gap-12 items-center">
+    <section id="hero" className="pt-32 pb-24 px-6 relative overflow-hidden">
+      <div className="max-w-7xl mx-auto relative z-10 grid lg:grid-cols-2 gap-8 items-center">
+        {/* Image Frame - Moved to top on mobile */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="relative block order-first lg:order-last"
+        >
+          {/* Radiating Waves */}
+          <div className="absolute inset-0 z-0 pointer-events-none">
+            {[1, 2, 3].map((i) => (
+              <motion.div
+                key={i}
+                initial={{ scale: 0.95, opacity: 0.5 }}
+                animate={{ scale: 1.4, opacity: 0 }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  delay: i * 1.3,
+                  ease: "easeOut"
+                }}
+                className="absolute inset-0 border border-brand-yellow/20 rounded-[2.5rem]"
+              />
+            ))}
+          </div>
+
+          <div className="aspect-[4/5] rounded-[2rem] overflow-hidden border-2 border-brand-yellow/30 relative z-10 group">
+            <img 
+              src={SITE_CONFIG.assets.hero} 
+              alt={SITE_CONFIG.name} 
+              className="w-full h-full object-cover"
+              referrerPolicy="no-referrer"
+            />
+            
+            {/* Mobile/Tablet Hero Text Overlay */}
+            <div className="absolute inset-0 flex flex-col justify-end p-8 lg:hidden bg-gradient-to-t from-black/90 via-black/20 to-transparent">
+              <span className="inline-block w-fit px-3 py-1 bg-brand-yellow/10 text-brand-yellow rounded-full text-[10px] uppercase tracking-[0.2em] font-bold mb-4 border border-brand-yellow/20">
+                {SITE_CONFIG.title}
+              </span>
+              <h1 className="font-serif text-4xl sm:text-5xl leading-[0.9] mb-4 text-balance text-white">
+                Hello <span className="text-brand-yellow italic">Partner</span>, I'm {SITE_CONFIG.name}.
+              </h1>
+            </div>
+
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none lg:block hidden" />
+          </div>
+          <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-brand-yellow rounded-full blur-[80px] opacity-20" />
+        </motion.div>
+
+        {/* Text Content */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="max-w-4xl"
+          className="max-w-3xl order-last lg:order-first"
         >
-          <span className="inline-block px-3 py-1 bg-brand-yellow/10 text-brand-yellow rounded-full text-[10px] uppercase tracking-[0.2em] font-bold mb-6 border border-brand-yellow/20">
+          <span className="hidden lg:inline-block px-3 py-1 bg-brand-yellow/10 text-brand-yellow rounded-full text-[10px] uppercase tracking-[0.2em] font-bold mb-6 border border-brand-yellow/20">
             {SITE_CONFIG.title}
           </span>
-          <h1 className="font-serif text-4xl sm:text-6xl md:text-8xl lg:text-9xl leading-[0.9] mb-8 text-balance">
+          <h1 className="hidden lg:block font-serif text-4xl sm:text-6xl md:text-8xl lg:text-9xl leading-[0.9] mb-8 text-balance">
             Hello <span className="text-brand-yellow italic">Partner</span>, I'm {SITE_CONFIG.name}.
           </h1>
           <p className="text-xl md:text-2xl opacity-60 max-w-2xl leading-relaxed mb-10">
@@ -157,83 +169,11 @@ const Hero = () => {
               href={SITE_CONFIG.socials.spotify} 
               target="_blank" 
               rel="noopener noreferrer"
-              className="border border-current/10 px-8 py-4 rounded-full font-medium hover:bg-black/5 dark:hover:bg-white/5 transition-colors flex items-center gap-2"
+              className="border border-current/10 px-8 py-4 rounded-full font-medium hover:bg-white/5 transition-colors flex items-center gap-2"
             >
               Listen to Podcast <Mic2 className="w-4 h-4" />
             </a>
           </div>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="relative block mt-12 lg:mt-0"
-          style={{ perspective: "1000px" }}
-        >
-          {/* Radiating Waves */}
-          <div className="absolute inset-0 z-0 pointer-events-none">
-            {[1, 2, 3].map((i) => (
-              <motion.div
-                key={i}
-                initial={{ scale: 0.95, opacity: 0.5 }}
-                animate={{ scale: 1.4, opacity: 0 }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  delay: i * 1.3,
-                  ease: "easeOut"
-                }}
-                className="absolute inset-0 border border-brand-yellow/20 rounded-[3.5rem]"
-              />
-            ))}
-          </div>
-
-          <motion.div 
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-            onMouseEnter={handleHover}
-            style={{ 
-              rotateX,
-              rotateY,
-              transformStyle: "preserve-3d" 
-            }}
-            whileHover={{ 
-              scale: 1.02,
-              transition: { duration: 0.4, ease: "easeOut" }
-            }}
-            className="aspect-[4/5] rounded-[3rem] overflow-hidden border-2 border-brand-yellow/30 relative z-10 group cursor-pointer"
-          >
-            <img 
-              src={SITE_CONFIG.assets.hero} 
-              alt={SITE_CONFIG.name} 
-              className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-[0.3]"
-              referrerPolicy="no-referrer"
-            />
-            
-            {/* Glassmorphism Overlay */}
-            <div className="absolute inset-0 flex items-center justify-center p-12 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20">
-              <div className="glass p-8 rounded-3xl backdrop-blur-xl bg-white/5 border border-white/10 text-center transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 shadow-2xl">
-                <Quote className="w-8 h-8 text-brand-yellow mb-4 mx-auto opacity-10" />
-                <p className="text-xl md:text-2xl text-white opacity-60 leading-relaxed">
-                  {quotes[quoteIndex]}
-                </p>
-              </div>
-            </div>
-
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none group-hover:opacity-0 transition-opacity" />
-            
-            <div className="absolute bottom-8 right-8 w-24 h-24 pointer-events-none group-hover:opacity-0 transition-opacity">
-              <motion.img 
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                src="https://lh3.googleusercontent.com/d/1K5QK8rb-fWJUOiY5iXyFoTVO6wlQt2Rj" 
-                alt="Overlay" 
-                className="w-full h-full object-contain"
-                referrerPolicy="no-referrer"
-              />
-            </div>
-          </motion.div>
-          <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-brand-yellow rounded-full blur-[80px] opacity-20" />
         </motion.div>
       </div>
       {/* Background Glow */}
@@ -300,7 +240,7 @@ const Projects = () => (
             className="group cursor-pointer"
             onClick={() => project.link.startsWith('http') ? window.open(project.link, '_blank') : window.location.hash = project.link}
           >
-            <div className={`aspect-[16/10] rounded-[2rem] overflow-hidden mb-6 ${project.color} border border-current/5`}>
+            <div className={`aspect-[16/10] rounded-3xl overflow-hidden mb-6 ${project.color} border border-current/5`}>
               <img 
                 src={project.image} 
                 alt={project.title} 
@@ -484,7 +424,7 @@ const USP = () => (
             icon: Globe
           }
         ].map((item, i) => (
-          <div key={i} className="p-10 rounded-[2.5rem] bg-black/[0.02] dark:bg-white/5 border border-current/10 relative overflow-hidden group hover:bg-black/10 dark:hover:bg-white/[0.08] transition-colors">
+          <div key={i} className="p-10 rounded-3xl bg-black/[0.02] dark:bg-white/5 border border-current/10 relative overflow-hidden group hover:bg-black/10 dark:hover:bg-white/[0.08] transition-colors">
             <div className="relative z-10">
               <item.icon className="w-10 h-10 mb-6 text-brand-yellow group-hover:scale-110 transition-transform" />
               <h3 className="text-2xl font-bold mb-4">{item.title}</h3>
@@ -499,82 +439,215 @@ const USP = () => (
   </section>
 );
 
-const Testimonials = () => (
-  <section id="testimonials" className="py-24 px-6 bg-zinc-50 dark:bg-zinc-900/40 transition-colors duration-500">
-    <div className="max-w-7xl mx-auto">
-      <div className="text-center mb-16">
-        <p className="text-brand-yellow uppercase tracking-widest text-xs font-bold mb-2">words on marbles</p>
-        <h2 className="font-serif text-4xl md:text-6xl mb-4">Recommendations</h2>
-        <p className="opacity-50 max-w-2xl mx-auto">What partners and clients say about working with me.</p>
+const Testimonials = () => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [isReady, setIsReady] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const baseTestimonials = [
+    {
+      name: "Wereloo Kingston",
+      role: "Climate & Environmental Policy Advocate",
+      date: "May 10, 2025",
+      content: "I rarely write recommendations, but for Mario, it would be an injustice not to. He is one of the most creative, intelligent, and dependable people I’ve worked with. From concept to execution, he brings ideas, strategy, and clarity. He’s a rare mix of skill, heart, and imagination.",
+      connection: "Worked with Mario on the same team"
+    },
+    {
+      name: "Tawanda Bwerudza",
+      role: "Author & Engineer @Kuona Engineering",
+      date: "April 30, 2025",
+      content: "Mario was responsible for developing the brand identity of a product that was just coming out of the concept phase. Mario's way of working is highly collaborative, and his communication throughout projects is clear and concise. He is a creative in the true sense of the word.",
+      connection: "Mario’s client"
+    },
+    {
+      name: "Roseline Chidinma Nwachukwu",
+      role: "Technical Buyer - Project Control Specialist",
+      date: "April 21, 2025",
+      content: "I have had the pleasure of working with Mario on my branding project (PEMA). Mario possesses a unique ability to process complex brand identities into organized, visually amazing designs. His attention to details, creative vision, and passion for design make him an invaluable asset.",
+      connection: "Mario’s client"
+    },
+    {
+      name: "Ime Uboh",
+      role: "UI/UX Designer | UX Researcher",
+      date: "October 1, 2023",
+      content: "I've known Mario for more than 2 years, and he's really passionate about his work. When we collaborate, it's always amazing because he gives it his all.",
+      connection: "Worked with Mario on the same team"
+    },
+    {
+      name: "Chukwunomso Chukwudubem",
+      role: "Design Consultant | Products | Web3",
+      date: "October 3, 2022",
+      content: "Excellent at identity design. He leverages on storytelling to communicate ethos and practices of brands- through compelling visuals.",
+      connection: "Worked with Mario but they were at different companies"
+    },
+    {
+      name: "Nwamaka Akah",
+      role: "Product design | Design systems",
+      date: "October 3, 2022",
+      content: "Mario is an awesome team player, with great leadership skills. While working with him, it was hard to miss how much thought he gives to his creative work and it reflects in the quality of his work.",
+      connection: "Worked with Mario on the same team"
+    }
+  ];
+
+  // Triple the items for infinite scroll
+  const displayTestimonials = [...baseTestimonials, ...baseTestimonials, ...baseTestimonials];
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      const container = scrollRef.current;
+      const singleSetWidth = container.scrollWidth / 3;
+      container.scrollLeft = singleSetWidth;
+      setIsReady(true);
+      // Initial active index calculation
+      updateActiveIndex();
+    }
+  }, []);
+
+  const updateActiveIndex = () => {
+    if (!scrollRef.current) return;
+    const container = scrollRef.current;
+    const scrollLeft = container.scrollLeft;
+    const containerWidth = container.clientWidth;
+    const scrollWidth = container.scrollWidth;
+    
+    // Calculate the center of the viewport relative to the scroll content
+    const centerPoint = scrollLeft + containerWidth / 2;
+    
+    // Find which card is closest to the centerPoint
+    const cards = container.children;
+    let closestIndex = 0;
+    let minDistance = Infinity;
+
+    for (let i = 0; i < cards.length; i++) {
+      const card = cards[i] as HTMLElement;
+      const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+      const distance = Math.abs(centerPoint - cardCenter);
+      
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestIndex = i;
+      }
+    }
+    
+    setActiveIndex(closestIndex % baseTestimonials.length);
+  };
+
+  const handleScroll = () => {
+    if (!scrollRef.current) return;
+    const container = scrollRef.current;
+    const singleSetWidth = container.scrollWidth / 3;
+
+    if (container.scrollLeft <= 0) {
+      container.scrollLeft = singleSetWidth;
+    } else if (container.scrollLeft >= singleSetWidth * 2) {
+      container.scrollLeft = singleSetWidth;
+    }
+    
+    updateActiveIndex();
+  };
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      const { scrollLeft, clientWidth } = scrollRef.current;
+      const scrollTo = direction === 'left' 
+        ? scrollLeft - clientWidth * 0.5 
+        : scrollLeft + clientWidth * 0.5;
+      
+      scrollRef.current.scrollTo({ left: scrollTo, behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <section id="testimonials" className="py-12 md:py-24 bg-zinc-50 dark:bg-zinc-900/40 transition-colors duration-500 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 mb-8 md:mb-16">
+        <div className="text-center">
+          <p className="text-brand-yellow uppercase tracking-widest text-xs font-bold mb-2">words on marbles</p>
+          <h2 className="font-serif text-4xl md:text-6xl mb-4">Recommendations</h2>
+          <p className="opacity-50 max-w-2xl mx-auto">What partners and clients say about working with me.</p>
+        </div>
       </div>
       
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {[
-          {
-            name: "Wereloo Kingston",
-            role: "Climate & Environmental Policy Advocate",
-            date: "May 10, 2025",
-            content: "I rarely write recommendations, but for Mario, it would be an injustice not to. He is one of the most creative, intelligent, and dependable people I’ve worked with. From concept to execution, he brings ideas, strategy, and clarity. He’s a rare mix of skill, heart, and imagination.",
-            connection: "Worked with Mario on the same team"
-          },
-          {
-            name: "Tawanda Bwerudza",
-            role: "Author & Engineer @Kuona Engineering",
-            date: "April 30, 2025",
-            content: "Mario was responsible for developing the brand identity of a product that was just coming out of the concept phase. Mario's way of working is highly collaborative, and his communication throughout projects is clear and concise. He is a creative in the true sense of the word.",
-            connection: "Mario’s client"
-          },
-          {
-            name: "Roseline Chidinma Nwachukwu",
-            role: "Technical Buyer - Project Control Specialist",
-            date: "April 21, 2025",
-            content: "I have had the pleasure of working with Mario on my branding project (PEMA). Mario possesses a unique ability to process complex brand identities into organized, visually amazing designs. His attention to details, creative vision, and passion for design make him an invaluable asset.",
-            connection: "Mario’s client"
-          },
-          {
-            name: "Ime Uboh",
-            role: "UI/UX Designer | UX Researcher",
-            date: "October 1, 2023",
-            content: "I've known Mario for more than 2 years, and he's really passionate about his work. When we collaborate, it's always amazing because he gives it his all.",
-            connection: "Worked with Mario on the same team"
-          },
-          {
-            name: "Chukwunomso Chukwudubem",
-            role: "Design Consultant | Products | Web3",
-            date: "October 3, 2022",
-            content: "Excellent at identity design. He leverages on storytelling to communicate ethos and practices of brands- through compelling visuals.",
-            connection: "Worked with Mario but they were at different companies"
-          },
-          {
-            name: "Nwamaka Akah",
-            role: "Product design | Design systems",
-            date: "October 3, 2022",
-            content: "Mario is an awesome team player, with great leadership skills. While working with him, it was hard to miss how much thought he gives to his creative work and it reflects in the quality of his work.",
-            connection: "Worked with Mario on the same team"
-          }
-        ].map((t, i) => (
-          <motion.div 
-            key={i}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.1 }}
-            className="p-8 rounded-[2rem] bg-white dark:bg-white/5 border border-current/5 flex flex-col h-full hover:border-brand-yellow/30 transition-all group"
-          >
-            <Quote className="w-8 h-8 text-brand-yellow/20 group-hover:text-brand-yellow/100 mb-6 transition-all" />
-            <p className="text-sm leading-relaxed opacity-40 group-hover:opacity-100 dark:text-white/90 mb-8 flex-grow italic transition-opacity">"{t.content}"</p>
-            <div className="pt-6 border-t border-current/5 group-hover:opacity-30 transition-opacity">
-              <h4 className="font-bold text-lg">{t.name}</h4>
-              <p className="text-[10px] text-brand-yellow uppercase tracking-wider font-bold mb-1">{t.connection}</p>
-              <p className="text-xs opacity-40 leading-tight">{t.role}</p>
-              <p className="text-[10px] opacity-30 mt-2">{t.date}</p>
-            </div>
-          </motion.div>
-        ))}
+      <div className={`relative group/carousel transition-opacity duration-500 ${isReady ? 'opacity-100' : 'opacity-0'}`}>
+        {/* Navigation Arrows */}
+        <button 
+          onClick={() => scroll('left')}
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-30 p-4 rounded-full bg-white/80 dark:bg-black/80 border border-current/5 shadow-xl opacity-0 group-hover/carousel:opacity-100 transition-all hover:scale-110 hidden md:flex items-center justify-center"
+          aria-label="Scroll left"
+        >
+          <ChevronLeft className="w-6 h-6" />
+        </button>
+        <button 
+          onClick={() => scroll('right')}
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-30 p-4 rounded-full bg-white/80 dark:bg-black/80 border border-current/5 shadow-xl opacity-0 group-hover/carousel:opacity-100 transition-all hover:scale-110 hidden md:flex items-center justify-center"
+          aria-label="Scroll right"
+        >
+          <ChevronRight className="w-6 h-6" />
+        </button>
+
+        {/* Horizontal Scroll Container */}
+        <div 
+          ref={scrollRef}
+          onScroll={handleScroll}
+          className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-6 px-[10vw] md:px-[20vw] lg:px-[30vw] pb-12"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          {displayTestimonials.map((t, i) => {
+            const isActive = (i % baseTestimonials.length) === activeIndex;
+            
+            return (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ 
+                  opacity: isActive ? 1 : 0.4, 
+                  scale: isActive ? 1 : 0.9 
+                }}
+                transition={{ duration: 0.4 }}
+                className="flex-shrink-0 w-[80vw] md:w-[50vw] lg:w-[40vw] snap-center"
+              >
+                <div className={`p-6 md:p-12 rounded-3xl bg-white dark:bg-white/5 border flex flex-col h-full transition-all duration-500 relative overflow-hidden ${
+                  isActive ? 'border-brand-yellow/40 shadow-2xl shadow-brand-yellow/5' : 'border-current/5'
+                }`}>
+                  <Quote className={`w-8 h-8 md:w-10 md:h-10 mb-3 md:mb-8 transition-all duration-500 ${
+                    isActive ? 'text-brand-yellow' : 'text-brand-yellow/20'
+                  }`} />
+                  <p className={`text-base md:text-xl leading-relaxed dark:text-white/90 mb-3 md:mb-10 flex-grow italic transition-opacity duration-500 ${
+                    isActive ? 'opacity-100' : 'opacity-40'
+                  }`}>
+                    "{t.content}"
+                  </p>
+                  <div className="pt-3 md:pt-8 border-t border-current/5">
+                    <h4 className="font-bold text-base md:text-xl mb-1">{t.name}</h4>
+                    <p className="text-[10px] md:text-xs text-brand-yellow uppercase tracking-wider font-bold mb-1 md:mb-2">{t.connection}</p>
+                    <p className="text-xs md:text-sm opacity-50 leading-tight">{t.role}</p>
+                    <p className="text-[8px] md:text-[10px] opacity-30 mt-3 md:mt-4">{t.date}</p>
+                  </div>
+                  
+                  {/* Decorative background element */}
+                  <div className={`absolute -top-10 -right-10 w-32 h-32 rounded-full blur-3xl transition-colors duration-500 ${
+                    isActive ? 'bg-brand-yellow/15' : 'bg-brand-yellow/5'
+                  }`} />
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+        
+        {/* Scroll Indicator / Hint */}
+        <div className="flex justify-center gap-2 mt-4">
+          {baseTestimonials.map((_, dot) => (
+            <div 
+              key={dot} 
+              className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                dot === activeIndex ? 'bg-brand-yellow w-4' : 'bg-current/10'
+              }`} 
+            />
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 const Footer = () => (
   <footer id="contact" className="py-24 px-6 border-t border-current/5 bg-zinc-100/50 dark:bg-black/50 transition-colors duration-500">
@@ -613,7 +686,7 @@ const Footer = () => (
           </div>
         </div>
         
-        <div className="glass p-6 sm:p-10 rounded-[2.5rem]">
+        <div className="glass p-6 sm:p-10 rounded-3xl">
           <form className="space-y-6">
             <div className="space-y-2">
               <label className="text-[10px] uppercase tracking-widest font-bold opacity-40">Full Name</label>
