@@ -250,7 +250,7 @@ const Hero = () => {
 };
 
 const Projects = () => (
-  <section id="projects" className="py-24 px-6 bg-[#cecece] dark:bg-zinc-900/40 transition-colors duration-500">
+  <section id="projects" className="py-24 px-6 bg-zinc-900/40 transition-colors duration-500">
     <div className="max-w-7xl mx-auto">
       <div className="mb-16 flex justify-between items-end">
         <div>
@@ -270,7 +270,7 @@ const Projects = () => (
             desc: "A simple, modern, and distinct mark appropriate for a sporting event niche, communicating community and progress.",
             image: SITE_CONFIG.assets.projects.bonnyIsland,
             color: "bg-blue-500/10",
-            textColor: "text-blue-500 dark:text-blue-400",
+            textColor: "text-blue-400",
             link: SITE_CONFIG.links.bonnyIslandMarathon
           },
           {
@@ -279,7 +279,7 @@ const Projects = () => (
             desc: "A comprehensive dashboard design for a reading and library management platform, focusing on user goals and activity.",
             image: SITE_CONFIG.assets.projects.bookie,
             color: "bg-indigo-500/10",
-            textColor: "text-indigo-500 dark:text-indigo-400",
+            textColor: "text-indigo-400",
             link: SITE_CONFIG.links.nobleAi
           },
           {
@@ -288,7 +288,7 @@ const Projects = () => (
             desc: "Educational flash cards designed to inspire and teach, featuring vibrant illustrations and clear typography.",
             image: SITE_CONFIG.assets.projects.lessons,
             color: "bg-orange-500/10",
-            textColor: "text-orange-500 dark:text-orange-400",
+            textColor: "text-orange-400",
             link: SITE_CONFIG.links.lessonsFromMyDaughters
           },
           {
@@ -297,7 +297,7 @@ const Projects = () => (
             desc: "A luxurious, inspiring, and classy identity for a fashion brand passionate about beautiful fabric piecing.",
             image: SITE_CONFIG.assets.projects.lenaVieve,
             color: "bg-pink-500/10",
-            textColor: "text-pink-500 dark:text-pink-400",
+            textColor: "text-pink-400",
             link: SITE_CONFIG.links.lenaVieveInstagram
           }
         ].map((project, i) => (
@@ -365,7 +365,7 @@ const Skills = () => (
                     "Brand Guidelines / Style Guides", 
                     "Brand Asset Development"
                   ].map((s, i) => (
-                    <span key={i} className="px-3 py-1 bg-black/[0.02] dark:bg-white/5 rounded-full text-xs font-medium border border-current/10">{s}</span>
+                    <span key={i} className="px-3 py-1 bg-white/5 rounded-full text-xs font-medium border border-current/10">{s}</span>
                   ))}
                 </div>
               </div>
@@ -385,7 +385,7 @@ const Skills = () => (
                     "Book Cover Design", 
                     "Product Design (flashcards, digital products)"
                   ].map((s, i) => (
-                    <span key={i} className="px-3 py-1 bg-black/[0.02] dark:bg-white/5 rounded-full text-xs font-medium border border-current/10">{s}</span>
+                    <span key={i} className="px-3 py-1 bg-white/5 rounded-full text-xs font-medium border border-current/10">{s}</span>
                   ))}
                 </div>
               </div>
@@ -402,7 +402,7 @@ const Skills = () => (
                     "Web design systems", 
                     "Figma prototyping"
                   ].map((s, i) => (
-                    <span key={i} className="px-3 py-1 bg-black/[0.02] dark:bg-white/5 rounded-full text-xs font-medium border border-current/10">{s}</span>
+                    <span key={i} className="px-3 py-1 bg-white/5 rounded-full text-xs font-medium border border-current/10">{s}</span>
                   ))}
                 </div>
               </div>
@@ -419,7 +419,7 @@ const Skills = () => (
                     "Visual storytelling for marketing", 
                     "Ad creative direction"
                   ].map((s, i) => (
-                    <span key={i} className="px-3 py-1 bg-black/[0.02] dark:bg-white/5 rounded-full text-xs font-medium border border-current/10">{s}</span>
+                    <span key={i} className="px-3 py-1 bg-white/5 rounded-full text-xs font-medium border border-current/10">{s}</span>
                   ))}
                 </div>
               </div>
@@ -454,7 +454,7 @@ const Skills = () => (
               icon: Users
             }
           ].map((cat, i) => (
-            <div key={i} className="p-8 rounded-3xl bg-black/[0.02] dark:bg-white/5 border border-current/10 hover:bg-black/10 dark:hover:bg-white/[0.08] transition-colors">
+            <div key={i} className="p-8 rounded-3xl bg-white/5 border border-current/10 hover:bg-white/[0.08] transition-colors">
               <cat.icon className="w-8 h-8 text-brand-yellow mb-6" />
               <h3 className="font-bold text-xl mb-3">{cat.title}</h3>
               <p className="opacity-50 text-sm leading-relaxed">{cat.desc}</p>
@@ -491,7 +491,7 @@ const USP = () => (
             icon: Globe
           }
         ].map((item, i) => (
-          <div key={i} className="p-10 rounded-3xl bg-black/[0.02] dark:bg-white/5 border border-current/10 relative overflow-hidden group hover:bg-black/10 dark:hover:bg-white/[0.08] transition-colors">
+          <div key={i} className="p-10 rounded-3xl bg-white/5 border border-current/10 relative overflow-hidden group hover:bg-white/[0.08] transition-colors">
             <div className="relative z-10">
               <item.icon className="w-10 h-10 mb-6 text-brand-yellow group-hover:scale-110 transition-transform" />
               <h3 className="text-2xl font-bold mb-4">{item.title}</h3>
@@ -625,7 +625,7 @@ const Testimonials = () => {
   };
 
   return (
-    <section id="testimonials" className="py-12 md:py-24 bg-zinc-50 dark:bg-zinc-900/40 transition-colors duration-500 overflow-hidden">
+    <section id="testimonials" className="py-12 md:py-24 bg-zinc-900/40 transition-colors duration-500 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 mb-8 md:mb-16">
         <div className="text-center">
           <p className="text-brand-yellow uppercase tracking-widest text-xs font-bold mb-2">words on marbles</p>
@@ -638,14 +638,14 @@ const Testimonials = () => {
         {/* Navigation Arrows */}
         <button 
           onClick={() => scroll('left')}
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-30 p-4 rounded-full bg-white/80 dark:bg-black/80 border border-current/5 shadow-xl opacity-0 group-hover/carousel:opacity-100 transition-all hover:scale-110 hidden md:flex items-center justify-center"
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-30 p-4 rounded-full bg-black/80 border border-current/5 shadow-xl opacity-0 group-hover/carousel:opacity-100 transition-all hover:scale-110 hidden md:flex items-center justify-center"
           aria-label="Scroll left"
         >
           <ChevronLeft className="w-6 h-6" />
         </button>
         <button 
           onClick={() => scroll('right')}
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-30 p-4 rounded-full bg-white/80 dark:bg-black/80 border border-current/5 shadow-xl opacity-0 group-hover/carousel:opacity-100 transition-all hover:scale-110 hidden md:flex items-center justify-center"
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-30 p-4 rounded-full bg-black/80 border border-current/5 shadow-xl opacity-0 group-hover/carousel:opacity-100 transition-all hover:scale-110 hidden md:flex items-center justify-center"
           aria-label="Scroll right"
         >
           <ChevronRight className="w-6 h-6" />
@@ -672,13 +672,13 @@ const Testimonials = () => {
                 transition={{ duration: 0.4 }}
                 className="flex-shrink-0 w-[80vw] md:w-[50vw] lg:w-[40vw] snap-center"
               >
-                <div className={`p-6 md:p-12 rounded-3xl bg-white dark:bg-white/5 border flex flex-col h-full transition-all duration-500 relative overflow-hidden ${
+                <div className={`p-6 md:p-12 rounded-3xl bg-white/5 border flex flex-col h-full transition-all duration-500 relative overflow-hidden ${
                   isActive ? 'border-brand-yellow/40 shadow-2xl shadow-brand-yellow/5' : 'border-current/5'
                 }`}>
                   <Quote className={`w-8 h-8 md:w-10 md:h-10 mb-3 md:mb-8 transition-all duration-500 ${
                     isActive ? 'text-brand-yellow' : 'text-brand-yellow/20'
                   }`} />
-                  <p className={`text-base md:text-xl leading-relaxed dark:text-white/90 mb-3 md:mb-10 flex-grow italic transition-opacity duration-500 ${
+                  <p className={`text-base md:text-xl leading-relaxed text-white/90 mb-3 md:mb-10 flex-grow italic transition-opacity duration-500 ${
                     isActive ? 'opacity-100' : 'opacity-40'
                   }`}>
                     "{t.content}"
@@ -717,7 +717,7 @@ const Testimonials = () => {
 };
 
 const Footer = () => (
-  <footer id="contact" className="py-24 px-6 border-t border-current/5 bg-zinc-100/50 dark:bg-black/50 transition-colors duration-500">
+  <footer id="contact" className="py-24 px-6 border-t border-current/5 bg-black/50 transition-colors duration-500">
     <div className="max-w-7xl mx-auto">
       <div className="grid lg:grid-cols-2 gap-16 mb-20">
         <div>
@@ -757,15 +757,15 @@ const Footer = () => (
           <form className="space-y-6">
             <div className="space-y-2">
               <label className="text-[10px] uppercase tracking-widest font-bold opacity-40">Full Name</label>
-              <input type="text" className="w-full bg-black/[0.02] dark:bg-white/5 border border-current/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-yellow/50 transition-colors" placeholder="John Doe" />
+              <input type="text" className="w-full bg-white/5 border border-current/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-yellow/50 transition-colors" placeholder="John Doe" />
             </div>
             <div className="space-y-2">
               <label className="text-[10px] uppercase tracking-widest font-bold opacity-40">Email Address</label>
-              <input type="email" className="w-full bg-black/[0.02] dark:bg-white/5 border border-current/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-yellow/50 transition-colors" placeholder="john@example.com" />
+              <input type="email" className="w-full bg-white/5 border border-current/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-yellow/50 transition-colors" placeholder="john@example.com" />
             </div>
             <div className="space-y-2">
               <label className="text-[10px] uppercase tracking-widest font-bold opacity-40">Project Details</label>
-              <textarea className="w-full bg-black/[0.02] dark:bg-white/5 border border-current/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-yellow/50 transition-colors h-32" placeholder="How can I help you?"></textarea>
+              <textarea className="w-full bg-white/5 border border-current/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-brand-yellow/50 transition-colors h-32" placeholder="How can I help you?"></textarea>
             </div>
             <button className="w-full bg-brand-yellow text-black py-5 rounded-2xl font-bold text-lg hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_0_30px_rgba(255,204,0,0.2)]">
               Send Message
